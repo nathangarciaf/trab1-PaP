@@ -1,21 +1,31 @@
+import csv
+
+def read_input_file(filename):
+    points = []
+    try:
+        with open(filename, newline='') as csvfile:
+            reader = csv.reader(csvfile)
+            for row in reader:
+                try:
+                    coords = tuple(float(value.strip()) for value in row)
+                    points.append(coords)
+                except ValueError:
+                    print(f"Erro: linha inválida no arquivo: {row}")
+    except FileNotFoundError:
+        print(f"Erro: o arquivo '{filename}' não foi encontrado.")
+        return None
+    return points
+
+def calculate_distances(point_list):
+    return []
+
 def main():
-    arquivo_entrada = input("Forneça o nome do arquivo de entrada: ")
-    arquivo_saida = input("Forneça o nome do arquivo de saída: ")
+    input_file_name = input("Forneça o nome do arquivo de entrada: ")
+    output_file_name = input("Forneça o nome do arquivo de saída: ")
     k = int(input("Forneça o número de grupos (K): "))
 
-    pontos = []
-    try:
-        with open(arquivo_entrada, 'r') as f:
-            for linha in f:
-                coordenadas = tuple(float(valor.strip()) for valor in linha.strip().split(','))
-                pontos.append(coordenadas)
-    except FileNotFoundError:
-        print(f"Erro: o arquivo '{arquivo_entrada}' não foi encontrado.")
-        return
-
-    print("Pontos lidos:")
-    for ponto in pontos:
-        print(ponto)
+    points = read_input_file(input_file_name)
+    distances = calculate_distances(points)
 
 if __name__ == "__main__":
     main()
