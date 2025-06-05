@@ -1,4 +1,4 @@
-import csv
+import csv, sys
 
 def read_input_file(filename):
     points = []
@@ -16,8 +16,32 @@ def read_input_file(filename):
         return None
     return points
 
-def calculate_distances(point_list):
-    return []
+def calculate_distance(a: tuple, b: tuple) -> float:
+    return (sum((x - y) ** 2 for x, y in zip(a, b))) ** 1/2
+
+def get_nearest_point(pl: list, a: tuple, len: int) -> float:
+    i = 0
+    nearest_distance = sys.float_info.max
+    nearest_idx = -1
+    while i < len:
+        b = pl[i]
+        distance = calculate_distance(a,b)
+        if distance < nearest_distance:
+            nearest_distance = distance
+            nearest_idx = i
+        i += 1
+    return nearest_idx
+
+def get_connections(point_list: list) -> list:
+    start_idx = 0
+    p0 = point_list.pop(start_idx)
+    path = []
+    while point_list:
+        list_len = len(point_list)
+        nearest_idx = get_nearest_point(point_list,p0,list_len)
+        path.append((p0, point_list[nearest_idx]))
+        p0 = point_list.pop(nearest_idx)
+    return path
 
 def main():
     input_file_name = input("Forneça o nome do arquivo de entrada: ")
@@ -25,7 +49,9 @@ def main():
     k = int(input("Forneça o número de grupos (K): "))
 
     points = read_input_file(input_file_name)
-    distances = calculate_distances(points)
+    connections = get_connections(points.copy())
+    print(points)
+    print(connections)
 
 if __name__ == "__main__":
     main()
