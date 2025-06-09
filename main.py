@@ -19,7 +19,7 @@ def read_input_file(filename):
 def calculate_distance(a: tuple, b: tuple) -> float:
     return (sum((x - y) ** 2 for x, y in zip(a, b))) ** 1/2
 
-def get_nearest_point(pl: list, a: tuple, len: int) -> float:
+def get_nearest_point(pl: list, a: tuple, len: int) -> tuple:
     i = 0
     nearest_distance = sys.float_info.max
     nearest_idx = -1
@@ -30,7 +30,7 @@ def get_nearest_point(pl: list, a: tuple, len: int) -> float:
             nearest_distance = distance
             nearest_idx = i
         i += 1
-    return nearest_idx
+    return (nearest_idx, nearest_distance)
 
 def get_connections(point_list: list) -> list:
     start_idx = 0
@@ -38,9 +38,9 @@ def get_connections(point_list: list) -> list:
     path = []
     while point_list:
         list_len = len(point_list)
-        nearest_idx = get_nearest_point(point_list,p0,list_len)
-        path.append((p0, point_list[nearest_idx]))
-        p0 = point_list.pop(nearest_idx)
+        nearest_point = get_nearest_point(point_list,p0,list_len)
+        path.append((p0, point_list[nearest_point[0]], nearest_point[1]))
+        p0 = point_list.pop(nearest_point[0])
     return path
 
 def main():
