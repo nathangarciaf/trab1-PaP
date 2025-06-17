@@ -1,4 +1,5 @@
 import csv, sys
+import networkx as nx
 
 def read_input_file(filename):
     points = []
@@ -43,6 +44,7 @@ def get_connections(point_list: list) -> list:
         p0 = point_list.pop(nearest_point[0])
     return path
 
+
 def main():
     input_file_name = input("Forneça o nome do arquivo de entrada: ")
     output_file_name = input("Forneça o nome do arquivo de saída: ")
@@ -50,8 +52,11 @@ def main():
 
     points = read_input_file(input_file_name)
     connections = get_connections(points.copy())
-    print(points)
-    print(connections)
+    groups = find_groups(connections, k, points)
+
+    print("Agrupamentos:")
+    for group in groups:
+        print(", ".join(str(x) for x in group))
 
 if __name__ == "__main__":
     main()
