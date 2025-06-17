@@ -66,10 +66,6 @@ def find_groups(connections: list, k: int, points: list) -> list:
 
     return groups
 
-import csv
-
-import csv
-
 def write_output_file(output_file_name: str, groups: list):
     try:
         with open(output_file_name, mode='w', newline='') as csvfile:
